@@ -6,45 +6,42 @@
 # * Licensed under the LGPL v3 license.
 #
 'use strict'
+
 module.exports = (grunt) ->
+
+    html5compare = require('./lib/html5compare')
+    path = require('path')
+
+    compareFileGroup = (fileGroup) ->
+        fileGroup.src.forEach (src) ->
+            # Warn on and remove invalid source files (if nonull was set).
+            srcpath = fileGroup.orig.cwd + path.sep + src
+            unless grunt.file.exists(srcpath)
+                grunt.log.warn 'Source file \'' + srcpath + '\' not found.'
+                return false
+
+            # Warn on and remove invalid compare (dest) files (if nonull was set).
+            destpath = fileGroup.dest + path.sep + src
+            unless grunt.file.exists(destpath)
+                grunt.log.warn 'Compare file \'' + destpath + '\' not found.'
+                return false
+
+            if html5compare.compare srcpath, destpath
+                grunt.log.ok srcpath + ' is equivalent to ' + destpath
+                return true
+            else
+                grunt.log.warn srcpath + ' is not equivalent to ' + destpath
+                return false
 
     # Please see the grunt documentation for more information regarding task
     # creation: https://github.com/gruntjs/grunt/blob/devel/docs/toc.md
     grunt.registerMultiTask 'html5compare', 'Compares HTML 5 files for equivalence.', ->
 
         # Merge task-specific and/or target-specific options with these defaults.
-        options = @options(
-            punctuation: '.'
-            separator: ', '
-        )
+        options = @options()
+        grunt.verbose.writeflags options, 'Options'
 
         # Iterate over all specified file groups.
-        @files.forEach (fileObj) ->
+        @files.forEach (fileGroup) ->
 
-            # The source files to be concatenated. The 'nonull' option is used
-            # to retain invalid files/patterns so they can be warned about.
-            files = grunt.file.expand(
-                nonull: true
-            , fileObj.src)
-
-            # Concat specified files.
-
-            # Warn if a source file/pattern was invalid.
-
-            # Read file source.
-            src = files.map((filepath) ->
-                unless grunt.file.exists(filepath)
-                    grunt.log.error 'Source file \'' + filepath + '\' not found.'
-                    return ''
-                grunt.file.read filepath
-            ).join(options.separator)
-
-            # Handle options.
-            src += options.punctuation
-
-            # Write the destination file.
-            grunt.file.write fileObj.dest, src
-
-            # Print a success message.
-            grunt.log.writeln 'File \'' + fileObj.dest + '\' created.'
-
+            fileGroup.src.forEach compareFileGroup

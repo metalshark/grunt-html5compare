@@ -53,26 +53,22 @@ module.exports = (grunt) ->
                     ext: '.js'
                 ]
 
+        # grunt-coffeelint: https://github.com/vojtajina/grunt-coffeelint
+        # Lint your CoffeeScript using grunt.js and coffeelint.
+        coffeelint:
+            options:
+                indentation:
+                    value: 4
+                max_line_length:
+                    value: 120
+            all: [
+                'Gruntfile.coffee'
+                '<%= app.tasks %>/**/*.coffee'
+                '<%= app.test %>/**/*.coffee'
+            ]
+
         # Configuration to be run (and then tested).
-        html5compare:
-            defaultOptions:
-                options: {}
-                files:
-                    '<%= app.temp %>/default_options': [
-                        '<%= app.test %>/fixtures/testing'
-                        '<%= app.test %>/fixtures/123'
-                    ]
-
-            customOptions:
-                options:
-                    separator: ': '
-                    punctuation: ' !!!'
-
-                files:
-                    '<%= app.temp %>/custom_options': [
-                        '<%= app.test %>/fixtures/testing'
-                        '<%= app.test %>/fixtures/123'
-                    ]
+        #html5compare:
 
         # grunt-contrib-jshint: https://github.com/gruntjs/grunt-contrib-jshint
         # Validate files with JSHint.
@@ -80,7 +76,7 @@ module.exports = (grunt) ->
             all: [
                 '<%= app.temp %>/Gruntfile.js'
                 '<%= app.temp %>/tasks/**/*.js'
-                '<%= nodeunit.tests %>'
+                '<%= app.temp %>/test/**/*.js'
             ]
             options:
                 jshintrc: '.jshintrc'
@@ -88,7 +84,7 @@ module.exports = (grunt) ->
         # Unit tests.
         nodeunit:
             tests: [
-                '<%= app.temp %>/test/**/*_test.js'
+                '<%= app.test %>/**/*_test.coffee'
             ]
 
     # Actually load this plugin's task(s).
@@ -98,13 +94,13 @@ module.exports = (grunt) ->
     # plugin's task(s), then test the result.
     grunt.registerTask 'test', [
         'clean'
-        'coffee'
-        'html5compare'
+        #'html5compare'
         'nodeunit'
     ]
 
     # By default, lint and run all tests.
     grunt.registerTask 'default', [
+        'coffeelint'
         'coffee'
         'jshint'
         'test'
