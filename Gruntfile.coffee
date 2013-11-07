@@ -68,7 +68,33 @@ module.exports = (grunt) ->
             ]
 
         # Configuration to be run (and then tested).
-        #html5compare:
+        html5compare:
+
+            singleTask:
+                files: [
+                    'test/fixtures/attribute-ordering-unordered.html': 'test/fixtures/attribute-ordering-ordered.html'
+                    'test/fixtures/content-spacing-spaced.html': 'test/fixtures/content-spacing-compact.html'
+                    'test/fixtures/self-closing-closed.html': 'test/fixtures/self-closing-open.html'
+                    'test/fixtures/tag-case-upper.html': 'test/fixtures/tag-case-lower.html'
+                ]
+
+            singleTaskDifferent:
+                options:
+                    different: true
+                files: [
+                    'test/fixtures/attributes-different-a.html': 'test/fixtures/attributes-different-b.html'
+                    'test/fixtures/child-different-a.html': 'test/fixtures/child-different-b.html'
+                    'test/fixtures/content-different-a.html': 'test/fixtures/content-different-b.html'
+                ]
+
+            #multiTask:
+            #    files: [
+            #        expand: true
+            #        cwd: '<%= app.test %>'
+            #        src: 'fixtures/attribute-ordering-unordered.html'
+            #        dest: '<%= app.test %>'
+            #        ext: '.js'
+            #    ]
 
         # grunt-contrib-jshint: https://github.com/gruntjs/grunt-contrib-jshint
         # Validate files with JSHint.
@@ -94,7 +120,7 @@ module.exports = (grunt) ->
     # plugin's task(s), then test the result.
     grunt.registerTask 'test', [
         'clean'
-        #'html5compare'
+        'html5compare'
         'nodeunit'
     ]
 

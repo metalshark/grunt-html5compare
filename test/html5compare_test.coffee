@@ -49,6 +49,77 @@ exports.html5compare =
         )
         test.done()
 
+    attributesDifferentPasses: (test) ->
+        test.expect 1
+        test.ok(
+            html5compare.compare(
+                'test/fixtures/attributes-different-a.html'
+                'test/fixtures/attributes-different-b.html',
+                { different: true }
+            )
+            'Nonequivalent attributes in documents should match with different specified.'
+        )
+        test.done()
+
+    childDifferent: (test) ->
+        test.expect 1
+        test.equal(
+            html5compare.compare(
+                'test/fixtures/child-different-a.html'
+                'test/fixtures/child-different-b.html'
+            )
+            false
+            'Nonequivalent children should not match.'
+        )
+        test.done()
+
+    childDifferentPasses: (test) ->
+        test.expect 1
+        test.ok(
+            html5compare.compare(
+                'test/fixtures/child-different-a.html'
+                'test/fixtures/child-different-b.html',
+                { different: true }
+            )
+            'Nonequivalent children should match with different specified.'
+        )
+        test.done()
+
+    contentDifferent: (test) ->
+        test.expect 1
+        test.equal(
+            html5compare.compare(
+                'test/fixtures/content-different-a.html'
+                'test/fixtures/content-different-b.html'
+            )
+            false
+            'Nonequivalent content should not match.'
+        )
+        test.done()
+
+    contentDifferentPasses: (test) ->
+        test.expect 1
+        test.ok(
+            html5compare.compare(
+                'test/fixtures/content-different-a.html'
+                'test/fixtures/content-different-b.html',
+                { different: true }
+            )
+            'Nonequivalent content should match with different specified.'
+        )
+        test.done()
+
+    contentSpacing: (test) ->
+        test.expect 1
+        test.ok(
+            html5compare.compare(
+                'test/fixtures/content-spacing-spaced.html'
+                'test/fixtures/content-spacing-compact.html'
+            )
+            'Equivalent documents with differences in whitespace should match.'
+        )
+        test.done()
+
     selfClosing: (test) ->
         test.expect 1
         test.ok(

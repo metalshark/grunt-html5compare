@@ -9,28 +9,36 @@
 
 module.exports = (grunt) ->
 
-    html5compare = require('./lib/html5compare')
+    html5compare = require('./lib/html5compare').init grunt
     path = require('path')
 
-    compareFileGroup = (fileGroup) ->
+    compareFileGroup = (fileGroup, options) ->
+        options = options || {}
+
         fileGroup.src.forEach (src) ->
             # Warn on and remove invalid source files (if nonull was set).
-            srcpath = fileGroup.orig.cwd + path.sep + src
-            unless grunt.file.exists(srcpath)
-                grunt.log.warn 'Source file \'' + srcpath + '\' not found.'
+            unless grunt.file.exists(src)
+                grunt.log.warn 'Source file \'' + src + '\' not found.'
                 return false
+
+            dest = fileGroup.orig.dest
 
             # Warn on and remove invalid compare (dest) files (if nonull was set).
-            destpath = fileGroup.dest + path.sep + src
-            unless grunt.file.exists(destpath)
-                grunt.log.warn 'Compare file \'' + destpath + '\' not found.'
+            unless grunt.file.exists(dest)
+                grunt.log.warn 'Compare file \'' + dest + '\' not found.'
                 return false
 
-            if html5compare.compare srcpath, destpath
-                grunt.log.ok srcpath + ' is equivalent to ' + destpath
+            if html5compare.compare src, dest, options
+                unless options.different
+                    grunt.log.ok src + ' is equivalent to ' + dest
+                else
+                    grunt.log.ok src + ' is not equivalent to ' + dest
                 return true
             else
-                grunt.log.warn srcpath + ' is not equivalent to ' + destpath
+                unless options.different
+                    grunt.log.error src + ' is not equivalent to ' + dest
+                else
+                    grunt.log.error src + ' is equivalent to ' + dest
                 return false
 
     # Please see the grunt documentation for more information regarding task
@@ -42,6 +50,5 @@ module.exports = (grunt) ->
         grunt.verbose.writeflags options, 'Options'
 
         # Iterate over all specified file groups.
-        @files.forEach (fileGroup) ->
-
-            fileGroup.src.forEach compareFileGroup
+        for fileGroup in @files
+            compareFileGroup fileGroup, options
