@@ -39,6 +39,10 @@ html5compare task
 _Run this task with the `grunt html5compare` command._
 
 Task targets, files and options may be specified according to the grunt [Configuring tasks](http://gruntjs.com/configuring-tasks) guide.
+
+Please be aware the the destination file(s) will be compared to the source file(s).
+If you can suggest a better syntax, then please raise an issue with a proposal.
+
 ### Options
 
 #### different
