@@ -57,7 +57,7 @@ html5compare: {
     singleTask: {
       files: [
         {
-          'comparison.html': 'original.html' // compare the original to the comparison
+          'comparison.html': 'original.html' // compare the two files
         }
       ]
     },
@@ -65,13 +65,24 @@ html5compare: {
     // Reverse the logic so it only passes if files are different
     singleTaskDifferent: {
       options: {
-        different: true
+        different: true // passes if they do not match
       },
       files: [
         {
-          'comparison.html': 'original.html',
+          'comparison.html': 'original.html'
         }
       ]
+    },
+
+    // Expanded syntax
+    singleTaskDifferent: {
+        files: [
+            expand: true,
+            cwd: 'tests',
+            src: 'originals/**/*.html'
+            dest: 'comparisons',
+            ext: '.html'
+        ]
     }
   }
 ```
