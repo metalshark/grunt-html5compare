@@ -21,7 +21,7 @@ module.exports = (grunt) ->
                 grunt.log.warn 'Source file \'' + src + '\' not found.'
                 return false
 
-            dest = fileGroup.orig.dest
+            dest = fileGroup.dest
 
             # Warn on and remove invalid compare (dest) files (if nonull was set).
             unless grunt.file.exists(dest)

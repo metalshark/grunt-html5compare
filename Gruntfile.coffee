@@ -87,14 +87,17 @@ module.exports = (grunt) ->
                     'test/fixtures/content-different-a.html': 'test/fixtures/content-different-b.html'
                 ]
 
-            #multiTask:
-            #    files: [
-            #        expand: true
-            #        cwd: '<%= app.test %>'
-            #        src: 'fixtures/attribute-ordering-unordered.html'
-            #        dest: '<%= app.test %>'
-            #        ext: '.js'
-            #    ]
+            multiTask:
+                files: [
+                    expand: true
+                    cwd: '<%= app.test %>'
+                    src: [
+                        'fixtures/**/*.html'
+                        '!fixtures/**/*different*.html'
+                    ]
+                    dest: '<%= app.test %>'
+                    ext: '.html'
+                ]
 
         # grunt-contrib-jshint: https://github.com/gruntjs/grunt-contrib-jshint
         # Validate files with JSHint.
