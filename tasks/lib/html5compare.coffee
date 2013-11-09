@@ -64,6 +64,10 @@ exports.init = () ->
                 if attr.name == compValue
                     compValue = ''
 
+                if attr.name == 'class'
+                    attr.value = attr.value.split(' ').sort().join(' ')
+                    compValue = compValue.split(' ').sort().join(' ')
+
                 if attr.value != compValue
                     throw new Error('attribute values do not match: "' +
                                     attr.value + '" != "' +

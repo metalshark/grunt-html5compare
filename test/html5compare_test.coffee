@@ -76,6 +76,18 @@ exports.html5compare =
         )
         test.done()
 
+    classOrdering: (test) ->
+        test.expect 1
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/class-ordering-ordered.html'
+                    grunt.file.read 'test/fixtures/class-ordering-unordered.html'
+                )
+            'Equivalent documents with different class orders should match.'
+        )
+        test.done()
+
     contentDifferent: (test) ->
         test.expect 1
         test.throws(
