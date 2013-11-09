@@ -72,29 +72,42 @@ module.exports = (grunt) ->
 
             singleTask:
                 files: [
-                    'test/fixtures/attribute-ordering-unordered.html': 'test/fixtures/attribute-ordering-ordered.html'
-                    'test/fixtures/content-spacing-spaced.html': 'test/fixtures/content-spacing-compact.html'
-                    'test/fixtures/self-closing-closed.html': 'test/fixtures/self-closing-open.html'
-                    'test/fixtures/tag-case-upper.html': 'test/fixtures/tag-case-lower.html'
+                    '<%= app.test %>/fixtures/attribute-ordering-unordered.html':
+                        '<%= app.test %>/fixtures/attribute-ordering-ordered.html'
+
+                    '<%= app.test %>/fixtures/content-spacing-spaced.html':
+                        '<%= app.test %>/fixtures/content-spacing-compact.html'
+
+                    '<%= app.test %>/fixtures/post-text-spaced.html':
+                        '<%= app.test %>/fixtures/post-text-unspaced.html'
+
+                    '<%= app.test %>/fixtures/pre-text-spaced.html':
+                        '<%= app.test %>/fixtures/pre-text-unspaced.html'
+
+                    '<%= app.test %>/fixtures/self-closing-closed.html':
+                        '<%= app.test %>/fixtures/self-closing-open.html'
+
+                    '<%= app.test %>/fixtures/tag-case-upper.html':
+                        '<%= app.test %>/fixtures/tag-case-lower.html'
                 ]
 
             singleTaskDifferent:
                 options:
                     different: true
                 files: [
-                    'test/fixtures/attributes-different-a.html': 'test/fixtures/attributes-different-b.html'
-                    'test/fixtures/child-different-a.html': 'test/fixtures/child-different-b.html'
-                    'test/fixtures/content-different-a.html': 'test/fixtures/content-different-b.html'
+                    '<%= app.test %>/fixtures/attributes-different-a.html':
+                        '<%= app.test %>/fixtures/attributes-different-b.html'
+                    '<%= app.test %>/fixtures/child-different-a.html':
+                        '<%= app.test %>/fixtures/child-different-b.html'
+                    '<%= app.test %>/fixtures/content-different-a.html':
+                        '<%= app.test %>/fixtures/content-different-b.html'
                 ]
 
             multiTask:
                 files: [
                     expand: true
                     cwd: '<%= app.test %>'
-                    src: [
-                        'fixtures/**/*.html'
-                        '!fixtures/**/*different*.html'
-                    ]
+                    src: 'fixtures/**/*.html'
                     dest: '<%= app.test %>'
                     ext: '.html'
                 ]

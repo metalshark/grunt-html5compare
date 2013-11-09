@@ -1,6 +1,6 @@
 'use strict'
 grunt = require('grunt')
-html5compare = require('../tasks/lib/html5compare').init(grunt)
+html5compare = require('../tasks/lib/html5compare').init()
 
 #
 #    ======== A Handy Little Nodeunit Reference ========
@@ -30,8 +30,8 @@ exports.html5compare =
         test.expect 1
         test.ok(
             html5compare.compare(
-                'test/fixtures/attribute-ordering-ordered.html'
-                'test/fixtures/attribute-ordering-unordered.html'
+                grunt.file.read 'test/fixtures/attribute-ordering-ordered.html'
+                grunt.file.read 'test/fixtures/attribute-ordering-unordered.html'
             )
             'Equivalent documents with different attribute orders should match.'
         )
@@ -39,73 +39,40 @@ exports.html5compare =
 
     attributesDifferent: (test) ->
         test.expect 1
-        test.equal(
-            html5compare.compare(
-                'test/fixtures/attributes-different-a.html'
-                'test/fixtures/attributes-different-b.html'
-            )
-            false
+        test.throws(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/attributes-different-a.html'
+                    grunt.file.read 'test/fixtures/attributes-different-b.html'
+                )
+            'Error: attribute lengths do not match: 2 != 1 for INPUT'
             'Nonequivalent attributes in documents should not match.'
-        )
-        test.done()
-
-    attributesDifferentPasses: (test) ->
-        test.expect 1
-        test.ok(
-            html5compare.compare(
-                'test/fixtures/attributes-different-a.html'
-                'test/fixtures/attributes-different-b.html',
-                { different: true }
-            )
-            'Nonequivalent attributes in documents should match with different specified.'
         )
         test.done()
 
     childDifferent: (test) ->
         test.expect 1
-        test.equal(
-            html5compare.compare(
-                'test/fixtures/child-different-a.html'
-                'test/fixtures/child-different-b.html'
-            )
-            false
+        test.throws(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/child-different-a.html'
+                    grunt.file.read 'test/fixtures/child-different-b.html'
+                )
+            'child lengths do not match: 5 != 3 for HEAD'
             'Nonequivalent children should not match.'
-        )
-        test.done()
-
-    childDifferentPasses: (test) ->
-        test.expect 1
-        test.ok(
-            html5compare.compare(
-                'test/fixtures/child-different-a.html'
-                'test/fixtures/child-different-b.html',
-                { different: true }
-            )
-            'Nonequivalent children should match with different specified.'
         )
         test.done()
 
     contentDifferent: (test) ->
         test.expect 1
-        test.equal(
-            html5compare.compare(
-                'test/fixtures/content-different-a.html'
-                'test/fixtures/content-different-b.html'
-            )
-            false
+        test.throws(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/content-different-a.html'
+                    grunt.file.read 'test/fixtures/content-different-b.html'
+                )
+            'content differs "Foo" != "Bar" in H1'
             'Nonequivalent content should not match.'
-        )
-        test.done()
-
-    contentDifferentPasses: (test) ->
-        test.expect 1
-        test.ok(
-            html5compare.compare(
-                'test/fixtures/content-different-a.html'
-                'test/fixtures/content-different-b.html',
-                { different: true }
-            )
-            'Nonequivalent content should match with different specified.'
         )
         test.done()
 
@@ -113,10 +80,32 @@ exports.html5compare =
         test.expect 1
         test.ok(
             html5compare.compare(
-                'test/fixtures/content-spacing-spaced.html'
-                'test/fixtures/content-spacing-compact.html'
+                grunt.file.read 'test/fixtures/content-spacing-spaced.html'
+                grunt.file.read 'test/fixtures/content-spacing-compact.html'
             )
             'Equivalent documents with differences in whitespace should match.'
+        )
+        test.done()
+
+    postText: (test) ->
+        test.expect 1
+        test.ok(
+            html5compare.compare(
+                grunt.file.read 'test/fixtures/post-text-spaced.html'
+                grunt.file.read 'test/fixtures/post-text-unspaced.html'
+            )
+            'Equivalent documents with differences in trailing whitespace should match.'
+        )
+        test.done()
+
+    preText: (test) ->
+        test.expect 1
+        test.ok(
+            html5compare.compare(
+                grunt.file.read 'test/fixtures/pre-text-spaced.html'
+                grunt.file.read 'test/fixtures/pre-text-unspaced.html'
+            )
+            'Equivalent documents with differences in leading whitespace should match.'
         )
         test.done()
 
@@ -124,8 +113,8 @@ exports.html5compare =
         test.expect 1
         test.ok(
             html5compare.compare(
-                'test/fixtures/self-closing-open.html'
-                'test/fixtures/self-closing-closed.html'
+                grunt.file.read 'test/fixtures/self-closing-open.html'
+                grunt.file.read 'test/fixtures/self-closing-closed.html'
             )
             'Equivalent documents with differences in tag closing should match.'
         )
@@ -135,8 +124,8 @@ exports.html5compare =
         test.expect 1
         test.ok(
             html5compare.compare(
-                'test/fixtures/tag-case-lower.html'
-                'test/fixtures/tag-case-upper.html'
+                grunt.file.read 'test/fixtures/tag-case-lower.html'
+                grunt.file.read 'test/fixtures/tag-case-upper.html'
             )
             'Equivalent documents with differences in tag case should match.'
         )

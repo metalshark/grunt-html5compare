@@ -8,38 +8,8 @@
 'use strict'
 
 module.exports = (grunt) ->
-
-    html5compare = require('./lib/html5compare').init grunt
+    html5compare = require('./lib/html5compare').init()
     path = require('path')
-
-    compareFileGroup = (fileGroup, options) ->
-        options = options || {}
-
-        fileGroup.src.forEach (src) ->
-            # Warn on and remove invalid source files (if nonull was set).
-            unless grunt.file.exists(src)
-                grunt.log.warn 'Source file \'' + src + '\' not found.'
-                return false
-
-            dest = fileGroup.dest
-
-            # Warn on and remove invalid compare (dest) files (if nonull was set).
-            unless grunt.file.exists(dest)
-                grunt.log.warn 'Compare file \'' + dest + '\' not found.'
-                return false
-
-            if html5compare.compare src, dest, options
-                unless options.different
-                    grunt.log.ok src + ' is equivalent to ' + dest
-                else
-                    grunt.log.ok src + ' is not equivalent to ' + dest
-                return true
-            else
-                unless options.different
-                    grunt.log.error src + ' is not equivalent to ' + dest
-                else
-                    grunt.log.error src + ' is equivalent to ' + dest
-                return false
 
     # Please see the grunt documentation for more information regarding task
     # creation: https://github.com/gruntjs/grunt/blob/devel/docs/toc.md
@@ -52,3 +22,38 @@ module.exports = (grunt) ->
         # Iterate over all specified file groups.
         for fileGroup in @files
             compareFileGroup fileGroup, options
+
+    compareFileGroup = (fileGroup, options) ->
+        for src in fileGroup.src
+            compareSrc src, fileGroup, options
+
+    compareSrc = (src, fileGroup, options) ->
+        # Warn on and remove invalid source files (if nonull was set).
+        unless grunt.file.exists(src)
+            grunt.log.warn 'Source file \'' + src + '\' not found.'
+            return false
+
+        dest = fileGroup.dest
+
+        # Warn on and remove invalid compare (dest) files (if nonull was set).
+        unless grunt.file.exists(dest)
+            grunt.log.warn 'Compare file \'' + dest + '\' not found.'
+            return false
+
+        origHTML = grunt.file.read src
+        compHTML = grunt.file.read dest
+
+        try
+            html5compare.compare origHTML, compHTML
+            message = src + ' is equivalent to ' + dest
+            unless options.different
+                grunt.log.ok message
+            else
+                grunt.log.error message
+        catch e
+            message = src + ' is not equivalent to ' + dest
+            unless options.different
+                grunt.log.error message
+                grunt.log.error e
+            else
+                grunt.log.ok message
