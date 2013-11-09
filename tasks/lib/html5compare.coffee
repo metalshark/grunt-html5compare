@@ -12,18 +12,18 @@ exports.init = () ->
 
     trim_whitespace = (dom) ->
         if dom.innerHTML
-            dom.innerHTML = dom.innerHTML.replace /^[\n\r\s\t]+|[\n\r\s\t]+$/g, ''
+            dom.innerHTML = dom.innerHTML.replace /^[\n\r\s\t]+|[\n\r\s\t]+$/gm, ''
 
         if dom.hasChildNodes()
             firstChild = dom.firstChild
             if firstChild.nodeName == '#text'
-                if firstChild.textContent.match /^[\n\r\s\t]+$/g
+                if firstChild.textContent.match /^[\n\r\s\t]+$/gm
                     dom.removeChild firstChild
 
         if dom.hasChildNodes()
             lastChild = dom.lastChild
             if lastChild.nodeName == '#text'
-                if lastChild.textContent.match /^[\n\r\s\t]+$/g
+                if lastChild.textContent.match /^[\n\r\s\t]+$/gm
                     dom.removeChild lastChild
 
         if dom.hasChildNodes()
@@ -75,9 +75,12 @@ exports.init = () ->
                 compareElements origChildNode, comp.childNodes[index], nodePath
 
         # Test child nodes before textContent as the error output is better
-        if orig.textContent != comp.textContent
-            throw new Error('content differs "' + orig.textContent +
-                            '" != "' + comp.textContent +
-                            '" in ' + nodePath.join('->'))
+        if orig.nodeName == '#text'
+            origText = orig.textContent.replace /^[\n\r\s\t]+|[\n\r\s\t]+$/gm, ''
+            compText = comp.textContent.replace /^[\n\r\s\t]+|[\n\r\s\t]+$/gm, ''
+            if origText != compText
+                throw new Error('content differs "' + origText +
+                                '" != "' + compText +
+                                '" in ' + nodePath.join('->'))
 
     return exports

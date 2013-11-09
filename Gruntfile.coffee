@@ -75,6 +75,9 @@ module.exports = (grunt) ->
                     '<%= app.test %>/fixtures/attribute-ordering-unordered.html':
                         '<%= app.test %>/fixtures/attribute-ordering-ordered.html'
 
+                    '<%= app.test %>/fixtures/child-whitespace-spaced.html':
+                        '<%= app.test %>/fixtures/child-whitespace-compact.html'
+
                     '<%= app.test %>/fixtures/content-spacing-spaced.html':
                         '<%= app.test %>/fixtures/content-spacing-compact.html'
 

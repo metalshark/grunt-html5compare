@@ -1,7 +1,7 @@
 {
     "name": "grunt-html5compare",
     "description": "Compares HTML 5 files for equivalence.",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "homepage": "https://github.com/metalshark/grunt-html5compare",
     "author": {
         "name": "\"Metalshark\" Beech Horn",
