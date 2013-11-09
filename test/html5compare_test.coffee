@@ -28,11 +28,12 @@ exports.html5compare =
 
     attributeOrdering: (test) ->
         test.expect 1
-        test.ok(
-            html5compare.compare(
-                grunt.file.read 'test/fixtures/attribute-ordering-ordered.html'
-                grunt.file.read 'test/fixtures/attribute-ordering-unordered.html'
-            )
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/attribute-ordering-ordered.html'
+                    grunt.file.read 'test/fixtures/attribute-ordering-unordered.html'
+                )
             'Equivalent documents with different attribute orders should match.'
         )
         test.done()
@@ -45,7 +46,7 @@ exports.html5compare =
                     grunt.file.read 'test/fixtures/attributes-different-a.html'
                     grunt.file.read 'test/fixtures/attributes-different-b.html'
                 )
-            'Error: attribute lengths do not match: 2 != 1 for INPUT'
+            'attribute lengths do not match: 2 != 1 in #document->INPUT'
             'Nonequivalent attributes in documents should not match.'
         )
         test.done()
@@ -58,7 +59,7 @@ exports.html5compare =
                     grunt.file.read 'test/fixtures/child-different-a.html'
                     grunt.file.read 'test/fixtures/child-different-b.html'
                 )
-            'child lengths do not match: 5 != 3 for HEAD'
+            'child lengths do not match: 3 != 1 in #document->HTML->HEAD'
             'Nonequivalent children should not match.'
         )
         test.done()
@@ -71,62 +72,67 @@ exports.html5compare =
                     grunt.file.read 'test/fixtures/content-different-a.html'
                     grunt.file.read 'test/fixtures/content-different-b.html'
                 )
-            'content differs "Foo" != "Bar" in H1'
+            'content differs "Foo" != "Bar" in #document->H1->#text'
             'Nonequivalent content should not match.'
         )
         test.done()
 
     contentSpacing: (test) ->
         test.expect 1
-        test.ok(
-            html5compare.compare(
-                grunt.file.read 'test/fixtures/content-spacing-spaced.html'
-                grunt.file.read 'test/fixtures/content-spacing-compact.html'
-            )
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/content-spacing-spaced.html'
+                    grunt.file.read 'test/fixtures/content-spacing-compact.html'
+                )
             'Equivalent documents with differences in whitespace should match.'
         )
         test.done()
 
     postText: (test) ->
         test.expect 1
-        test.ok(
-            html5compare.compare(
-                grunt.file.read 'test/fixtures/post-text-spaced.html'
-                grunt.file.read 'test/fixtures/post-text-unspaced.html'
-            )
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/post-text-spaced.html'
+                    grunt.file.read 'test/fixtures/post-text-unspaced.html'
+                )
             'Equivalent documents with differences in trailing whitespace should match.'
         )
         test.done()
 
     preText: (test) ->
         test.expect 1
-        test.ok(
-            html5compare.compare(
-                grunt.file.read 'test/fixtures/pre-text-spaced.html'
-                grunt.file.read 'test/fixtures/pre-text-unspaced.html'
-            )
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/pre-text-spaced.html'
+                    grunt.file.read 'test/fixtures/pre-text-unspaced.html'
+                )
             'Equivalent documents with differences in leading whitespace should match.'
         )
         test.done()
 
     selfClosing: (test) ->
         test.expect 1
-        test.ok(
-            html5compare.compare(
-                grunt.file.read 'test/fixtures/self-closing-open.html'
-                grunt.file.read 'test/fixtures/self-closing-closed.html'
-            )
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/self-closing-open.html'
+                    grunt.file.read 'test/fixtures/self-closing-closed.html'
+                )
             'Equivalent documents with differences in tag closing should match.'
         )
         test.done()
 
     tagCase: (test) ->
         test.expect 1
-        test.ok(
-            html5compare.compare(
-                grunt.file.read 'test/fixtures/tag-case-lower.html'
-                grunt.file.read 'test/fixtures/tag-case-upper.html'
-            )
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/tag-case-lower.html'
+                    grunt.file.read 'test/fixtures/tag-case-upper.html'
+                )
             'Equivalent documents with differences in tag case should match.'
         )
         test.done()

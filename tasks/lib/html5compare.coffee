@@ -39,38 +39,46 @@ exports.init = () ->
 
         compareElements origDOM, compDOM
 
-    compareElements = (orig, comp) ->
-        if orig.textContent != comp.textContent
-            throw new Error('content differs "' + orig.textContent +
-                            '" != "' + comp.textContent +
-                            '" in ' + orig.nodeName)
+    compareElements = (orig, comp, nodePath) ->
+        nodePath = nodePath || []
+
+        nodePath.push orig.nodeName
 
         unless orig.nodeName == comp.nodeName
             throw new Error('nodeNames do not match: ' + orig.nodeName +
-                            ' != ' + comp.nodeName)
+                            ' != ' + comp.nodeName +
+                            ' in ' + nodePath.join('->'))
 
         if orig.attributes
             if orig.attributes.length != comp.attributes.length
                 throw new Error('attribute lengths do not match: ' +
                                 orig.attributes.length + ' != ' +
-                                comp.attributes.length + ' for ' +
-                                orig.nodeName)
+                                comp.attributes.length + ' in ' +
+                                nodePath.join('->'))
 
             for attr in orig.attributes
                 if attr.value != comp.getAttribute(attr.name)
                     throw new Error('attribute values do not match: ' +
                                     attr.value + ' != ' +
-                                    comp.getAttribute(attr.name) + ' for ' +
-                                    orig.nodeName + '.' + attr.name)
+                                    comp.getAttribute(attr.name) + ' in ' +
+                                    nodePath.join('->') + '.' + attr.name)
 
-        if orig.hasChildNodes
+        if orig.hasChildNodes()
             if orig.childNodes.length != comp.childNodes.length
                 throw new Error('child lengths do not match: ' +
                                 orig.childNodes.length + ' != ' +
-                                comp.childNodes.length + ' for ' +
-                                orig.nodeName)
+                                comp.childNodes.length + ' in ' +
+                                nodePath.join('->'))
 
             for origChildNode, index in orig.childNodes
-                compareElements origChildNode, comp.childNodes[index]
+                compareElements origChildNode, comp.childNodes[index], nodePath
+
+        if orig.textContent != comp.textContent
+            throw new Error('content differs "' + orig.textContent +
+                            '" != "' + comp.textContent +
+                            '" in ' + nodePath.join('->'))
+
+        return true
+
 
     return exports
