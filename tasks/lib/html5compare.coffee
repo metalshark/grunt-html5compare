@@ -78,7 +78,4 @@ exports.init = () ->
                             '" != "' + comp.textContent +
                             '" in ' + nodePath.join('->'))
 
-        return true
-
-
     return exports
