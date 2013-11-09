@@ -145,7 +145,7 @@ exports.html5compare =
                     grunt.file.read 'test/fixtures/sibling-whitespace-spaced.html'
                     grunt.file.read 'test/fixtures/sibling-whitespace-compact.html'
                 )
-            'Equivalent documents with differences in tag closing should match.'
+            'Equivalent documents with differences in whitespace between siblings should match.'
         )
         test.done()
 
@@ -158,5 +158,17 @@ exports.html5compare =
                     grunt.file.read 'test/fixtures/tag-case-upper.html'
                 )
             'Equivalent documents with differences in tag case should match.'
+        )
+        test.done()
+
+    voidAttributes: (test) ->
+        test.expect 1
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/void-attributes-explicit.html'
+                    grunt.file.read 'test/fixtures/void-attributes-implicit.html'
+                )
+            'Void attributes should match whether explicit or implicit.'
         )
         test.done()

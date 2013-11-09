@@ -56,10 +56,18 @@ exports.init = () ->
                                 nodePath.join('->'))
 
             for attr in orig.attributes
-                if attr.value != comp.getAttribute(attr.name)
+                compValue = comp.getAttribute(attr.name)
+
+                if attr.name == attr.value
+                    attr.value = ''
+
+                if attr.name == compValue
+                    compValue = ''
+
+                if attr.value != compValue
                     throw new Error('attribute values do not match: "' +
                                     attr.value + '" != "' +
-                                    comp.getAttribute(attr.name) + '" in ' +
+                                    compValue + '" in ' +
                                     nodePath.join('->') + '.' + attr.name)
 
         if orig.hasChildNodes()

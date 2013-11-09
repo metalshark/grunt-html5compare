@@ -92,6 +92,9 @@ module.exports = (grunt) ->
 
                     '<%= app.test %>/fixtures/tag-case-upper.html':
                         '<%= app.test %>/fixtures/tag-case-lower.html'
+
+                    '<%= app.test %>/fixtures/void-attributes-explicit.html':
+                        '<%= app.test %>/fixtures/void-attributes-implicit.html'
                 ]
 
             singleTaskDifferent:
