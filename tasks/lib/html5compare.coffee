@@ -42,6 +42,7 @@ exports.init = () ->
     compareElements = (orig, comp, nodePath) ->
         nodePath = nodePath || []
 
+        nodePath = [].concat(nodePath)
         nodePath.push orig.nodeName
 
         unless orig.nodeName == comp.nodeName
