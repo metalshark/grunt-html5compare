@@ -82,10 +82,10 @@ module.exports = (grunt) ->
                         '<%= app.test %>/fixtures/content-spacing-compact.html'
 
                     '<%= app.test %>/fixtures/post-text-spaced.html':
-                        '<%= app.test %>/fixtures/post-text-unspaced.html'
+                        '<%= app.test %>/fixtures/post-text-compact.html'
 
                     '<%= app.test %>/fixtures/pre-text-spaced.html':
-                        '<%= app.test %>/fixtures/pre-text-unspaced.html'
+                        '<%= app.test %>/fixtures/pre-text-compact.html'
 
                     '<%= app.test %>/fixtures/self-closing-closed.html':
                         '<%= app.test %>/fixtures/self-closing-open.html'

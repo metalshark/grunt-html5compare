@@ -107,7 +107,7 @@ exports.html5compare =
             ->
                 html5compare.compare(
                     grunt.file.read 'test/fixtures/post-text-spaced.html'
-                    grunt.file.read 'test/fixtures/post-text-unspaced.html'
+                    grunt.file.read 'test/fixtures/post-text-compact.html'
                 )
             'Equivalent documents with differences in trailing whitespace should match.'
         )
@@ -119,7 +119,7 @@ exports.html5compare =
             ->
                 html5compare.compare(
                     grunt.file.read 'test/fixtures/pre-text-spaced.html'
-                    grunt.file.read 'test/fixtures/pre-text-unspaced.html'
+                    grunt.file.read 'test/fixtures/pre-text-compact.html'
                 )
             'Equivalent documents with differences in leading whitespace should match.'
         )
@@ -132,6 +132,18 @@ exports.html5compare =
                 html5compare.compare(
                     grunt.file.read 'test/fixtures/self-closing-open.html'
                     grunt.file.read 'test/fixtures/self-closing-closed.html'
+                )
+            'Equivalent documents with differences in tag closing should match.'
+        )
+        test.done()
+
+    siblingWhitespace: (test) ->
+        test.expect 1
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/sibling-whitespace-spaced.html'
+                    grunt.file.read 'test/fixtures/sibling-whitespace-compact.html'
                 )
             'Equivalent documents with differences in tag closing should match.'
         )

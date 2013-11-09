@@ -14,17 +14,15 @@ exports.init = () ->
         if dom.innerHTML
             dom.innerHTML = dom.innerHTML.replace /^[\n\r\s\t]+|[\n\r\s\t]+$/gm, ''
 
+        whitespaceChildren = []
         if dom.hasChildNodes()
-            firstChild = dom.firstChild
-            if firstChild.nodeName == '#text'
-                if firstChild.textContent.match /^[\n\r\s\t]+$/gm
-                    dom.removeChild firstChild
+            for childNode in dom.childNodes
+                if childNode.nodeName == '#text'
+                    if childNode.textContent.match /^[\n\r\s\t]+$/gm
+                        whitespaceChildren.push childNode
 
-        if dom.hasChildNodes()
-            lastChild = dom.lastChild
-            if lastChild.nodeName == '#text'
-                if lastChild.textContent.match /^[\n\r\s\t]+$/gm
-                    dom.removeChild lastChild
+        for childNode in whitespaceChildren
+            dom.removeChild childNode
 
         if dom.hasChildNodes()
             for childNode in dom.childNodes
@@ -66,9 +64,16 @@ exports.init = () ->
 
         if orig.hasChildNodes()
             if orig.childNodes.length != comp.childNodes.length
-                throw new Error('child lengths do not match: ' +
-                                orig.childNodes.length + ' != ' +
-                                comp.childNodes.length + ' in ' +
+                origChildren = []
+                for origChildNode in orig.childNodes
+                    origChildren.push origChildNode.nodeName
+                compChildren = []
+                for compChildNode in comp.childNodes
+                    compChildren.push compChildNode.nodeName
+
+                throw new Error('child lengths do not match: (' +
+                                origChildren.join(', ') + ') != (' +
+                                compChildren.join(', ') + ') in ' +
                                 nodePath.join('->'))
 
             for origChildNode, index in orig.childNodes
