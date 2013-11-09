@@ -3,6 +3,13 @@ grunt-html5compare
 
 > Compares HTML 5 files for equivalence.
 
+Introduction
+------------
+
+Ever needed to compare two HTML 5 files to make sure they match for unittests,
+then realised that using simple diffs meant that attribute ordering and
+whitespace caused problems? Well grunt-html5compare is the tool for the job!
+
 Windows users
 -------------
 
