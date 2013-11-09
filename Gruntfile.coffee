@@ -67,7 +67,7 @@ module.exports = (grunt) ->
                 '<%= app.test %>/**/*.coffee'
             ]
 
-        # Configuration to be run (and then tested).
+        # Configuration to be run for testing.
         html5compare:
 
             singleTask:

@@ -59,9 +59,9 @@ exports.init = () ->
 
             for attr in orig.attributes
                 if attr.value != comp.getAttribute(attr.name)
-                    throw new Error('attribute values do not match: ' +
-                                    attr.value + ' != ' +
-                                    comp.getAttribute(attr.name) + ' in ' +
+                    throw new Error('attribute values do not match: "' +
+                                    attr.value + '" != "' +
+                                    comp.getAttribute(attr.name) + '" in ' +
                                     nodePath.join('->') + '.' + attr.name)
 
         if orig.hasChildNodes()
@@ -74,6 +74,7 @@ exports.init = () ->
             for origChildNode, index in orig.childNodes
                 compareElements origChildNode, comp.childNodes[index], nodePath
 
+        # Test child nodes before textContent as the error output is better
         if orig.textContent != comp.textContent
             throw new Error('content differs "' + orig.textContent +
                             '" != "' + comp.textContent +
