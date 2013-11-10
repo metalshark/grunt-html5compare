@@ -20,40 +20,40 @@ module.exports = (grunt) ->
         grunt.verbose.writeflags options, 'Options'
 
         # Iterate over all specified file groups.
+        fileCount = 0
+
+        _compareFileGroup = (fileGroup, options) ->
+            for src in fileGroup.src
+                _compareSrc src, fileGroup, options
+
+        _compareSrc = (src, fileGroup, options) ->
+            # Warn on and remove invalid source files (if nonull was set).
+            unless grunt.file.exists(src)
+                grunt.warn 'Source file \'' + src + '\' not found.'
+                return false
+
+            dest = fileGroup.dest
+
+            # Warn on and remove invalid compare (dest) files (if nonull was set).
+            unless grunt.file.exists(dest)
+                grunt.warn 'Compare file \'' + dest + '\' not found.'
+                return false
+
+            fileCount += 1
+
+            origHTML = grunt.file.read src
+            compHTML = grunt.file.read dest
+
+            try
+                html5compare.compare origHTML, compHTML
+                if options.different
+                    grunt.warn src + ' is equivalent to ' + dest
+            catch e
+                unless options.different
+                    grunt.warn src + ' is not equivalent to ' + dest + '\n' + e.message
+
         for fileGroup in @files
-            compareFileGroup fileGroup, options
+            _compareFileGroup fileGroup, options
 
-    compareFileGroup = (fileGroup, options) ->
-        for src in fileGroup.src
-            compareSrc src, fileGroup, options
-
-    compareSrc = (src, fileGroup, options) ->
-        # Warn on and remove invalid source files (if nonull was set).
-        unless grunt.file.exists(src)
-            grunt.warn 'Source file \'' + src + '\' not found.'
-            return false
-
-        dest = fileGroup.dest
-
-        # Warn on and remove invalid compare (dest) files (if nonull was set).
-        unless grunt.file.exists(dest)
-            grunt.warn 'Compare file \'' + dest + '\' not found.'
-            return false
-
-        origHTML = grunt.file.read src
-        compHTML = grunt.file.read dest
-
-        try
-            html5compare.compare origHTML, compHTML
-            message = src + ' is equivalent to ' + dest
-            unless options.different
-                grunt.log.ok message
-            else
-                grunt.error message
-        catch e
-            message = src + ' is not equivalent to ' + dest
-            unless options.different
-                grunt.error message
-                grunt.error e
-            else
-                grunt.log.ok message
+        # Report number of files compared.
+        grunt.log.ok fileCount + ' pairs of files were equivalent.'
