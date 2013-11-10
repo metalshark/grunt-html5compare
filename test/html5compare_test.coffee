@@ -88,6 +88,18 @@ exports.html5compare =
         )
         test.done()
 
+    classSeparators: (test) ->
+        test.expect 1
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/class-separators-commas.html'
+                    grunt.file.read 'test/fixtures/class-separators-spaces.html'
+                )
+            'Equivalent documents with different class separators should match.'
+        )
+        test.done()
+
     contentDifferent: (test) ->
         test.expect 1
         test.throws(

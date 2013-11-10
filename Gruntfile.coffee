@@ -81,6 +81,9 @@ module.exports = (grunt) ->
                     '<%= app.test %>/fixtures/class-ordering-unordered.html':
                         '<%= app.test %>/fixtures/class-ordering-ordered.html'
 
+                    '<%= app.test %>/fixtures/class-separators-spaced.html':
+                        '<%= app.test %>/fixtures/class-separators-commas.html'
+
                     '<%= app.test %>/fixtures/content-spacing-spaced.html':
                         '<%= app.test %>/fixtures/content-spacing-compact.html'
 
