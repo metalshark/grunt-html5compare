@@ -30,14 +30,14 @@ module.exports = (grunt) ->
     compareSrc = (src, fileGroup, options) ->
         # Warn on and remove invalid source files (if nonull was set).
         unless grunt.file.exists(src)
-            grunt.log.warn 'Source file \'' + src + '\' not found.'
+            grunt.warn 'Source file \'' + src + '\' not found.'
             return false
 
         dest = fileGroup.dest
 
         # Warn on and remove invalid compare (dest) files (if nonull was set).
         unless grunt.file.exists(dest)
-            grunt.log.warn 'Compare file \'' + dest + '\' not found.'
+            grunt.warn 'Compare file \'' + dest + '\' not found.'
             return false
 
         origHTML = grunt.file.read src
@@ -49,11 +49,11 @@ module.exports = (grunt) ->
             unless options.different
                 grunt.log.ok message
             else
-                grunt.log.error message
+                grunt.error message
         catch e
             message = src + ' is not equivalent to ' + dest
             unless options.different
-                grunt.log.error message
-                grunt.log.error e
+                grunt.error message
+                grunt.error e
             else
                 grunt.log.ok message
