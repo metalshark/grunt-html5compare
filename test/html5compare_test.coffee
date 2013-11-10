@@ -125,6 +125,19 @@ exports.html5compare =
         )
         test.done()
 
+    noClass: (test) ->
+        test.expect 1
+        test.throws(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/no-class-with.html'
+                    grunt.file.read 'test/fixtures/no-class-without.html'
+                )
+            'attribute values do not match: "foo" != "" in #document->HR.class'
+            'Equivalent documents with differences in trailing whitespace should match.'
+        )
+        test.done()
+
     postText: (test) ->
         test.expect 1
         test.doesNotThrow(

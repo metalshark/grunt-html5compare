@@ -109,8 +109,13 @@ module.exports = (grunt) ->
                 files: [
                     '<%= app.test %>/fixtures/attributes-different-a.html':
                         '<%= app.test %>/fixtures/attributes-different-b.html'
+
                     '<%= app.test %>/fixtures/child-different-a.html':
                         '<%= app.test %>/fixtures/child-different-b.html'
+
+                    '<%= app.test %>/fixtures/no-class-without.html':
+                        '<%= app.test %>/fixtures/no-class-with.html'
+
                     '<%= app.test %>/fixtures/content-different-a.html':
                         '<%= app.test %>/fixtures/content-different-b.html'
                 ]
