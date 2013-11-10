@@ -56,4 +56,4 @@ module.exports = (grunt) ->
             _compareFileGroup fileGroup, options
 
         # Report number of files compared.
-        grunt.log.ok fileCount + ' pairs of files were equivalent.'
+        grunt.log.ok fileCount + ' pairs of files equivalent.'
