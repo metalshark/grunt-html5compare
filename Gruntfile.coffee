@@ -22,36 +22,30 @@ module.exports = (grunt) ->
         # grunt-contrib-clean: https://github.com/gruntjs/grunt-contrib-clean
         # Clear files and folders.
         clean:
-            # Before generating any new files, remove any previously-created files.
-            tests: [
-                '<%= app.temp %>'
-            ]
+            temp:
+                dot: true
+                src: '<%= app.temp %>'
 
         # grunt-contrib-coffee: https://github.com/gruntjs/grunt-contrib-coffee
         # Compile CoffeeScript files to JavaScript.
         coffee:
             gruntfile:
-                files: [
-                    '<%= app.temp %>/Gruntfile.js': 'Gruntfile.coffee'
-                ]
+                src: 'Gruntfile.coffee'
+                dest: '<%= app.temp %>/Gruntfile.js'
 
             tasks:
-                files: [
-                    expand: true
-                    cwd: '<%= app.tasks %>'
-                    src: '**/*.coffee'
-                    dest: '<%= app.temp %>/tasks'
-                    ext: '.js'
-                ]
+                expand: true
+                cwd: '<%= app.tasks %>'
+                src: '**/*.coffee'
+                dest: '<%= app.temp %>/tasks'
+                ext: '.js'
 
             test:
-                files: [
-                    expand: true
-                    cwd: '<%= app.test %>'
-                    src: '**/*.coffee'
-                    dest: '<%= app.temp %>/test'
-                    ext: '.js'
-                ]
+                expand: true
+                cwd: '<%= app.test %>'
+                src: '**/*.coffee'
+                dest: '<%= app.temp %>/test'
+                ext: '.js'
 
         # grunt-coffeelint: https://github.com/vojtajina/grunt-coffeelint
         # Lint your CoffeeScript using grunt.js and coffeelint.
@@ -134,13 +128,11 @@ module.exports = (grunt) ->
                 ]
 
             multiTask:
-                files: [
-                    expand: true
-                    cwd: '<%= app.test %>'
-                    src: 'fixtures/**/*.html'
-                    dest: '<%= app.test %>'
-                    ext: '.html'
-                ]
+                expand: true
+                cwd: '<%= app.test %>'
+                src: 'fixtures/**/*.html'
+                dest: '<%= app.test %>'
+                ext: '.html'
 
             invalidSrc:
                 src: 'no-such-file.html'
