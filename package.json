@@ -20,7 +20,7 @@
             "url": "https://github.com/metalshark/grunt-html5compare/blob/master/LICENSE"
         }
     ],
-    "main": "Gruntfile.js",
+    "main": "Gruntfile.coffee",
     "engines": {
         "node": ">= 0.8.0"
     },
