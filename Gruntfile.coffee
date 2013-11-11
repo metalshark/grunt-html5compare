@@ -69,7 +69,6 @@ module.exports = (grunt) ->
 
         # Configuration to be run for testing.
         html5compare:
-
             singleTask:
                 files: [
                     nonull: true
