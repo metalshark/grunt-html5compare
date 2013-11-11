@@ -71,7 +71,6 @@ module.exports = (grunt) ->
         html5compare:
 
             singleTask:
-                nonull: true
                 files: [
                     nonull: true
                     src: '<%= app.test %>/fixtures/attribute-ordering-unordered.html'
