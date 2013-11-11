@@ -1,6 +1,6 @@
 'use strict'
 grunt = require('grunt')
-html5compare = require('../tasks/lib/html5compare').init()
+html5compare = require('../tasks/lib/html5compare')
 
 #
 #    ======== A Handy Little Nodeunit Reference ========

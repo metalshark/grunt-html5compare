@@ -8,7 +8,7 @@ Licensed under the LGPL v3 license.
 'use strict'
 
 module.exports = (grunt) ->
-    html5compare = require('./lib/html5compare').init()
+    html5compare = require('./lib/html5compare')
     path = require('path')
 
     # Please see the grunt documentation for more information regarding task
@@ -27,17 +27,20 @@ module.exports = (grunt) ->
                 _compareSrc src, fileGroup, options
 
         _compareSrc = (src, fileGroup, options) ->
-            # Warn on and remove invalid source files (if nonull was set).
+            # Warn on and ignore invalid source files.
             unless grunt.file.exists(src)
                 grunt.warn 'Source file \'' + src + '\' not found.'
-                return false
 
             dest = fileGroup.dest
 
-            # Warn on and remove invalid compare (dest) files (if nonull was set).
+            # Warn on and ignore invalid compare (dest) files.
             unless grunt.file.exists(dest)
-                grunt.warn 'Compare file \'' + dest + '\' not found.'
-                return false
+                message = 'Comparison file \'' + dest + '\' not found.'
+                if fileGroup.orig.nonull
+                    grunt.warn message
+                else
+                    grunt.log.warn message
+                    return # Compare the next file
 
             fileCount += 1
 
@@ -56,4 +59,7 @@ module.exports = (grunt) ->
             _compareFileGroup fileGroup, options
 
         # Report number of files compared.
-        grunt.log.ok fileCount + ' pairs of files equivalent.'
+        if fileCount
+            grunt.log.ok fileCount + ' pairs of files equivalent.'
+        else
+            grunt.log.warn fileCount + ' pairs of files compared. Please check your ignored files.'

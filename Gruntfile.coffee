@@ -71,53 +71,68 @@ module.exports = (grunt) ->
         html5compare:
 
             singleTask:
+                nonull: true
                 files: [
-                    '<%= app.test %>/fixtures/attribute-ordering-unordered.html':
-                        '<%= app.test %>/fixtures/attribute-ordering-ordered.html'
-
-                    '<%= app.test %>/fixtures/child-whitespace-spaced.html':
-                        '<%= app.test %>/fixtures/child-whitespace-compact.html'
-
-                    '<%= app.test %>/fixtures/class-ordering-unordered.html':
-                        '<%= app.test %>/fixtures/class-ordering-ordered.html'
-
-                    '<%= app.test %>/fixtures/class-separators-spaces.html':
-                        '<%= app.test %>/fixtures/class-separators-commas.html'
-
-                    '<%= app.test %>/fixtures/content-spacing-spaced.html':
-                        '<%= app.test %>/fixtures/content-spacing-compact.html'
-
-                    '<%= app.test %>/fixtures/post-text-spaced.html':
-                        '<%= app.test %>/fixtures/post-text-compact.html'
-
-                    '<%= app.test %>/fixtures/pre-text-spaced.html':
-                        '<%= app.test %>/fixtures/pre-text-compact.html'
-
-                    '<%= app.test %>/fixtures/self-closing-closed.html':
-                        '<%= app.test %>/fixtures/self-closing-open.html'
-
-                    '<%= app.test %>/fixtures/tag-case-upper.html':
-                        '<%= app.test %>/fixtures/tag-case-lower.html'
-
-                    '<%= app.test %>/fixtures/void-attributes-explicit.html':
-                        '<%= app.test %>/fixtures/void-attributes-implicit.html'
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/attribute-ordering-unordered.html'
+                    dest:'<%= app.test %>/fixtures/attribute-ordering-ordered.html'
+                ,
+                    nonull: true
+                    src:' <%= app.test %>/fixtures/child-whitespace-spaced.html'
+                    dest: '<%= app.test %>/fixtures/child-whitespace-compact.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/class-ordering-unordered.html'
+                    dest: '<%= app.test %>/fixtures/class-ordering-ordered.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/class-separators-spaces.html'
+                    dest: '<%= app.test %>/fixtures/class-separators-commas.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/content-spacing-spaced.html'
+                    dest: '<%= app.test %>/fixtures/content-spacing-compact.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/post-text-spaced.html'
+                    dest: '<%= app.test %>/fixtures/post-text-compact.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/pre-text-spaced.html'
+                    dest: '<%= app.test %>/fixtures/pre-text-compact.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/self-closing-closed.html'
+                    dest: '<%= app.test %>/fixtures/self-closing-open.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/tag-case-upper.html'
+                    dest: '<%= app.test %>/fixtures/tag-case-lower.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/void-attributes-explicit.html'
+                    dest: '<%= app.test %>/fixtures/void-attributes-implicit.html'
                 ]
 
             singleTaskDifferent:
                 options:
                     different: true
                 files: [
-                    '<%= app.test %>/fixtures/attributes-different-a.html':
-                        '<%= app.test %>/fixtures/attributes-different-b.html'
-
-                    '<%= app.test %>/fixtures/child-different-a.html':
-                        '<%= app.test %>/fixtures/child-different-b.html'
-
-                    '<%= app.test %>/fixtures/no-class-without.html':
-                        '<%= app.test %>/fixtures/no-class-with.html'
-
-                    '<%= app.test %>/fixtures/content-different-a.html':
-                        '<%= app.test %>/fixtures/content-different-b.html'
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/attributes-different-a.html'
+                    dest: '<%= app.test %>/fixtures/attributes-different-b.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/child-different-a.html'
+                    dest: '<%= app.test %>/fixtures/child-different-b.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/no-class-without.html'
+                    dest: '<%= app.test %>/fixtures/no-class-with.html'
+                ,
+                    nonull: true
+                    src: '<%= app.test %>/fixtures/content-different-a.html'
+                    dest: '<%= app.test %>/fixtures/content-different-b.html'
                 ]
 
             multiTask:
@@ -128,6 +143,14 @@ module.exports = (grunt) ->
                     dest: '<%= app.test %>'
                     ext: '.html'
                 ]
+
+            invalidSrc:
+                src: 'no-such-file.html'
+                dest: '<%= app.test %>/fixtures/attributes-different-a.html'
+
+            invalidDest:
+                src: '<%= app.test %>/fixtures/attributes-different-a.html'
+                dest: 'no-such-file.html'
 
         # grunt-contrib-jshint: https://github.com/gruntjs/grunt-contrib-jshint
         # Validate files with JSHint.
