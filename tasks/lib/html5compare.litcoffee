@@ -94,8 +94,7 @@ case. This means we can compare `nodeName` without worrying about case.
 Comparing Attributes
 --------------------
 
-Comparing attributes using a simple test for lengths matching first, then
-setting a default of an empty string `""` so that other comparisons are simpler.
+Comparing attributes using a simple test for lengths matching first.
 
 **TODO**: Show a list attribute names when the lengths differ to help
 spot the difference.
@@ -106,6 +105,13 @@ spot the difference.
                                 orig.attributes.length + ' != ' +
                                 comp.attributes.length + ' in ' +
                                 nodePath.join('->'))
+
+We use a variable to hold the comparison value `compValue` and `attr` is the
+original file's attribute.
+
+For each value we are setting a default of an empty
+string `""` if the value is the same as the name e.g. checked=checked,
+autofocus=autofocus, etc so that other comparisons are simpler later on.
 
             for attr in orig.attributes
                 compValue = comp.getAttribute(attr.name)
@@ -119,8 +125,14 @@ spot the difference.
 Handling the Class Attribute
 ----------------------------
 
-The class attribute can be separated by comma or space. By splitting on either,
-sorting alphabetically and joining again it is possible to compare simply.
+The class attribute can be separated by comma or space. So it may be a different
+value in the two files we are comparing, even though they mean the same thing.
+By splitting on either character, sorting alphabetically and joining again it
+should make both class values the same so we can compare them.
+
+**TODO:** See if there is a way to use
+[sets](http://docs.python.org/2/library/sets.html)
+in JavaScript instead.
 
                 if attr.name == 'class'
                     attr.value = attr.value.split(/[\s,]+/).sort().join(' ')
@@ -130,8 +142,8 @@ sorting alphabetically and joining again it is possible to compare simply.
                         compValue = []
 
 There may be additional cases where this simple comparison of attribute values
-is undesirable (such as for class above), however they are yet to present
-themselves.
+is undesirable (such as for class above), if you find anything please
+[raise an issue](https://github.com/metalshark/grunt-html5compare/issues/new).
 
                 if attr.value != compValue
                     throw new Error('attribute values do not match: "' +
@@ -143,20 +155,17 @@ themselves.
 Comparing Children
 ------------------
 
-Comparing how many child nodes each element has.
+Comparing how many child nodes each element has using a simple test for lengths
+matching first.
 
         if orig.hasChildNodes()
             if orig.childNodes.length != comp.childNodes.length
 
-If the number of child nodes do not match then list the element names of each
+If the number of child nodes does not match then list the element names of each
 child node to help spot the difference.
 
-                origChildren = []
-                for origChildNode in orig.childNodes
-                    origChildren.push origChildNode.nodeName
-                compChildren = []
-                for compChildNode in comp.childNodes
-                    compChildren.push compChildNode.nodeName
+                origChildren = orig.childNodes.map (node) -> node.nodeName
+                compChildren = comp.childNodes.map (node) -> node.nodeName
 
                 throw new Error('child lengths do not match: (' +
                                 origChildren.join(', ') + ') != (' +
