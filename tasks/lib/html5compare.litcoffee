@@ -109,9 +109,11 @@ spot the difference.
 We use a variable to hold the comparison value `compValue` and `attr` is the
 original file's attribute.
 
-For each value we are setting a default of an empty
-string `""` if the value is the same as the name e.g. checked=checked,
-autofocus=autofocus, etc so that other comparisons are simpler later on.
+When the value is the same as the attribute name e.g. checked=checked then
+we set the value to an empty string, which is often the alternative syntax.
+This way we can continue using the same comparison below without having to treat
+a list of classes as *special cases*. If you find a special case then please
+[raise an issue](https://github.com/metalshark/grunt-html5compare/issues/new).
 
             for attr in orig.attributes
                 compValue = comp.getAttribute(attr.name)
@@ -125,10 +127,10 @@ autofocus=autofocus, etc so that other comparisons are simpler later on.
 Handling the Class Attribute
 ----------------------------
 
-The class attribute can be separated by comma or space. So it may be a different
-value in the two files we are comparing, even though they mean the same thing.
-By splitting on either character, sorting alphabetically and joining again it
-should make both class values the same so we can compare them.
+The class attribute can be separated a by comma or space. So it may be a
+different value in the two files we are comparing, even though they mean the
+same thing. By splitting on either character, sorting alphabetically and joining
+again it should make both class values the same so we can compare them.
 
 **TODO:** See if there is a way to use
 [sets](http://docs.python.org/2/library/sets.html)
