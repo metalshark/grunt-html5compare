@@ -70,9 +70,8 @@ two DOMs.
 The `nodePath` variable is so that the path of nodes navigated to so far can be
 shown in error messages to make it easier for developers to spot the difference.
 
-TODO: there should really be a tree view of DOM elements compared so far, using
-highlighting the element which failed comparison, instead of just
-a simplistic nodePath.
+**TODO**: Display a tree view of DOM elements compared so far, highlighting the
+element which failed comparison, instead of using a simplistic nodePath.
 
     compareElements = (orig, comp, nodePath) ->
         nodePath = nodePath || []
@@ -96,7 +95,7 @@ Comparing Attributes
 Comparing attributes using a simple test for lengths matching first, then
 setting a default of an empty string `""` so that other comparisons are simpler.
 
-TODO: Show a list attribute names when the lengths differ to help
+**TODO**: Show a list attribute names when the lengths differ to help
 spot the difference.
 
         if orig.attributes
