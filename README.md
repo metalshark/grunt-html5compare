@@ -14,7 +14,9 @@ whitespace caused problems? Well grunt-html5compare is the tool for the job!
 
 Please have a look at the
 [actual comparison](https://github.com/metalshark/grunt-html5compare/blob/master/tasks/lib/html5compare.litcoffee)
-itself for details and feel free to raise issues if there is anything missing.
+itself for details and feel free to
+[raise an issue](https://github.com/metalshark/grunt-html5compare/issues/new)
+if there is anything missing.
 
 Windows users
 -------------

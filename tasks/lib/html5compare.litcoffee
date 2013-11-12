@@ -42,7 +42,8 @@ Trimming Whitespace
 
 Remove any whitespace padding, including independent #text nodes only containing
 whitespace. If there are any problems with files needing whitespace for
-comparison then either an option can be added or we can refine this function.
+comparison then please
+[raise an issue](https://github.com/metalshark/grunt-html5compare/issues/new).
 
     trim_whitespace = (dom) ->
         if dom.innerHTML
@@ -68,11 +69,11 @@ Comparing DOMs
 Designed to be run recursively on child elements, this is where we compare the
 two DOMs.
 
-The `nodePath` variable is so that the path of nodes navigated to so far can be
+The `nodePath` variable is linear stack of nodes navigated, so that they can be
 shown in error messages to make it easier for developers to spot the difference.
 
 **TODO**: Display a tree view of DOM elements compared so far, highlighting the
-element which failed comparison, instead of using a simplistic nodePath.
+element which failed comparison, instead of using a linear system.
 
     compareElements = (orig, comp, nodePath) ->
         nodePath = nodePath || []
