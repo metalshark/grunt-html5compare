@@ -69,8 +69,10 @@ two DOMs.
 
 The `nodePath` variable is so that the path of nodes navigated to so far can be
 shown in error messages to make it easier for developers to spot the difference.
-Ultimately there should really be a tree view of DOM elements with colour
-syntaxing.
+
+TODO: there should really be a tree view of DOM elements compared so far, using
+highlighting the element which failed comparison, instead of just
+a simplistic nodePath.
 
     compareElements = (orig, comp, nodePath) ->
         nodePath = nodePath || []
@@ -93,6 +95,9 @@ Comparing Attributes
 
 Comparing attributes using a simple test for lengths matching first, then
 setting a default of an empty string `""` so that other comparisons are simpler.
+
+TODO: Show a list attribute names when the lengths differ to help
+spot the difference.
 
         if orig.attributes
             if orig.attributes.length != comp.attributes.length
@@ -157,11 +162,18 @@ child node to help spot the difference.
                                 compChildren.join(', ') + ') in ' +
                                 nodePath.join('->'))
 
-Comparing Text
---------------
+Recursively Compare Children
+----------------------------
+
+Here is where we recursively call `compareElements` (this function) on child
+nodes. As the comparison utility raises/throws exceptions rather than returning
+true or false, we can ignore the return value.
 
             for origChildNode, index in orig.childNodes
                 compareElements origChildNode, comp.childNodes[index], nodePath
+
+Comparing Text
+--------------
 
 Finally we compare any text differences. This test comes after the child tests
 as the output is more specific from a child with differing text than the parent.
