@@ -15,6 +15,9 @@ objects for easy comparison.
 
     jsdom = require('jsdom').jsdom
 
+Comparing HTML Documents
+------------------------
+
 We expose just the compare function when this library is required. By only
 accepting the HTML contents as a string, any file reading or network I/O is
 handled outside of the comparison library.
@@ -32,6 +35,9 @@ child elements.
         trim_whitespace compDOM
 
         compareElements origDOM, compDOM
+
+Trimming Whitespace
+-------------------
 
 Remove any whitespace padding, including independent #text nodes only containing
 whitespace. If there are any problems with files needing whitespace for
@@ -54,6 +60,9 @@ comparison then either an option can be added or we can refine this function.
         if dom.hasChildNodes()
             for childNode in dom.childNodes
                 trim_whitespace childNode
+
+Comparing DOMs
+--------------
 
 Designed to be run recursively on child elements, this is where we compare the
 two DOMs.
@@ -79,6 +88,9 @@ case. This means we can compare `nodeName` without worrying about case.
                             ' != ' + comp.nodeName +
                             ' in ' + nodePath.join('->'))
 
+Comparing Attributes
+--------------------
+
 Comparing attributes using a simple test for lengths matching first, then
 setting a default of an empty string `""` so that other comparisons are simpler.
 
@@ -97,6 +109,9 @@ setting a default of an empty string `""` so that other comparisons are simpler.
 
                 if attr.name == compValue
                     compValue = ''
+
+Handling the Class Attribute
+----------------------------
 
 The class attribute can be separated by comma or space. By splitting on either,
 sorting alphabetically and joining again it is possible to compare simply.
@@ -118,6 +133,10 @@ themselves.
                                     compValue + '" in ' +
                                     nodePath.join('->') + '.' + attr.name)
 
+
+Comparing Children
+------------------
+
 Comparing how many child nodes each element has.
 
         if orig.hasChildNodes()
@@ -137,6 +156,9 @@ child node to help spot the difference.
                                 origChildren.join(', ') + ') != (' +
                                 compChildren.join(', ') + ') in ' +
                                 nodePath.join('->'))
+
+Comparing Text
+--------------
 
             for origChildNode, index in orig.childNodes
                 compareElements origChildNode, comp.childNodes[index], nodePath
