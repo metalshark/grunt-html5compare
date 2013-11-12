@@ -11,7 +11,8 @@ Strict helps to trap more potential bugs.
     'use strict'
 
 Using [jsdom](https://github.com/tmpvar/jsdom) to interpret HTML and produce
-objects for easy comparison.
+objects for easy comparison, in particular the
+[jsdom.jsdom method](https://github.com/tmpvar/jsdom#for-the-hardcore).
 
     jsdom = require('jsdom').jsdom
 
