@@ -96,7 +96,7 @@ Comparing Attributes
 
 Comparing attributes using a simple test for lengths matching first.
 
-**TODO**: Show a list attribute names when the lengths differ to help
+**TODO**: Show a list of attribute names when the lengths differ to help
 spot the difference.
 
         if orig.attributes
