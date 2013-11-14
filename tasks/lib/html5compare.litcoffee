@@ -161,7 +161,7 @@ Comparing how many child nodes each element has using a simple test for lengths
 matching first.
 
         if orig.hasChildNodes()
-            if orig.childNodes.length != comp.childNodes.length
+            unless orig.childNodes.length == comp.childNodes.length
 
 If the number of child nodes does not match then list the element names of each
 child node to help spot the difference.
