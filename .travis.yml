@@ -4,8 +4,8 @@ node_js:
   - "0.10"
   - "0.8"
   env:
-  - GRUNT=0.4.0
-  - GRUNT=0.4.1
+  - GRUNT="0.4.0"
+  - GRUNT="0.4.1"
 before_script:
-  - npm install -D grunt@$GRUNT
+  - npm install -D grunt@${GRUNT}
   - npm install -g grunt-cli
