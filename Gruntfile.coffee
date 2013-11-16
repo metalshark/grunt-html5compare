@@ -8,6 +8,9 @@ Licensed under the LGPL v3 license.
 'use strict'
 module.exports = (grunt) ->
 
+    # show elapsed time at the end
+    require('time-grunt') grunt
+
     # load all grunt tasks
     require('load-grunt-tasks') grunt
 
