@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/metalshark/grunt-html5compare.png)](https://travis-ci.org/metalshark/grunt-html5compare)
 [![Dependency Status](https://david-dm.org/metalshark/grunt-html5compare.png)](https://david-dm.org/metalshark/grunt-html5compare)
+[![DevDependency Status](https://david-dm.org/metalshark/grunt-html5compare/dev-status.png)](https://david-dm.org/metalshark/grunt-html5compare#info=devDependencies)
 
 grunt-html5compare
 ==================
