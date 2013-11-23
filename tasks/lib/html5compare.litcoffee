@@ -89,7 +89,7 @@ same.
 except those which are # prefixed (e.g. #document, #text, etc) which are made
 lower case. This means we can compare `nodeName` without worrying about case.
 
-        unless orig.nodeName === comp.nodeName
+        unless orig.nodeName == comp.nodeName
             throw new Error('nodeNames do not match: ' + orig.nodeName +
                             ' != ' + comp.nodeName +
                             ' in ' + nodePath.join('->'))
