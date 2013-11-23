@@ -69,11 +69,13 @@ Comparing DOMs
 Designed to be run recursively on child elements, this is where we compare the
 two DOMs.
 
-The `nodePath` variable is linear stack of nodes navigated, so that they can be
-shown in error messages to make it easier for developers to spot the difference.
+The `nodePath` variable is an array of element names used for error messages.
+By cloning (`[].concat`) the array of names is trimmed to a linear path through
+the DOM. Without cloning you will end up with a zig zag pattern, as it will
+record *every* element it is called on in the DOM.
 
-**TODO**: Display a tree view of DOM elements compared so far, highlighting the
-element which failed comparison, instead of using a linear system.
+**TODO**: Display a tree view of DOM elements compared so far. It should also
+highlight the element which failed comparison.
 
     compareElements = (orig, comp, nodePath) ->
         nodePath = nodePath || []
@@ -81,12 +83,13 @@ element which failed comparison, instead of using a linear system.
         nodePath = [].concat(nodePath)
         nodePath.push orig.nodeName
 
-First we check that the node names (`HTML`, `HEAD`, etc) match.
-[jsdom](https://github.com/tmpvar/jsdom) makes every element's name upper case
-except those which are # prefixed (#document, #text, etc), which it makes lower
-case. This means we can compare `nodeName` without worrying about case.
+First we check that the element names (`HTML`, `HEAD`, 'STRONG', etc) are the
+same.
+[jsdom](https://github.com/tmpvar/jsdom) makes every element's name upper case,
+except those which are # prefixed (e.g. #document, #text, etc) which are made
+lower case. This means we can compare `nodeName` without worrying about case.
 
-        unless orig.nodeName == comp.nodeName
+        unless orig.nodeName === comp.nodeName
             throw new Error('nodeNames do not match: ' + orig.nodeName +
                             ' != ' + comp.nodeName +
                             ' in ' + nodePath.join('->'))
@@ -94,7 +97,7 @@ case. This means we can compare `nodeName` without worrying about case.
 Comparing Attributes
 --------------------
 
-Comparing attributes using a simple test for lengths matching first.
+Comparing attributes using a simple test for lengths before comparing values.
 
 **TODO**: Show a list of attribute names when the lengths differ to help
 spot the difference.
@@ -106,13 +109,17 @@ spot the difference.
                                 comp.attributes.length + ' in ' +
                                 nodePath.join('->'))
 
-We use a variable to hold the comparison value `compValue` and `attr` is the
+`attr` is the original element's attribute, whilst `compValue` holds the
+comparison element's attribute value, determined by the original element's
+attribute name.
+
+We use a variable to hold the comparison value (`compValue`) and `attr` is the
 original file's attribute.
 
-When the value is the same as the attribute name e.g. checked=checked then
-we set the value to an empty string, which is often the alternative syntax.
-This way we can continue using the same comparison below without having to treat
-a list of classes as *special cases*. If you find a special case then please
+When the attribute value is the same as the name e.g. checked=checked then
+we set the value to an empty string, which is the alternative syntax. This way
+we can continue using the same comparison below without having to treat a list
+of names/values as *special cases*. If you find a special case then please
 [raise an issue](https://github.com/metalshark/grunt-html5compare/issues/new).
 
             for attr in orig.attributes
@@ -127,8 +134,8 @@ a list of classes as *special cases*. If you find a special case then please
 Handling the Class Attribute
 ----------------------------
 
-The class attribute can be separated a by comma or space. So it may be a
-different value in the two files we are comparing, even though they mean the
+The class attribute can be separated a by comma or space, so it may be a
+different value in the two files we are comparing even though they mean the
 same thing. By splitting on either character, sorting alphabetically and joining
 again it should make both class values the same so we can compare them.
 
@@ -188,8 +195,8 @@ Comparing Text
 --------------
 
 Finally we compare any text differences. This test comes after the child tests
-as the output is more specific from a child with differing text than the parent.
-We could just add an if statement to this to check that it is a leaf node (an
+as the output is more specific from a child with differing text than a parent.
+We could just add an `if` statement to this to check that it is a leaf node (an
 element without children) however that will likely need more clauses added to it
 as exceptions are found.
 
