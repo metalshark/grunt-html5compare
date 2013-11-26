@@ -47,7 +47,20 @@ exports.html5compare =
                     grunt.file.read 'test/fixtures/attributes-different-b.html'
                 )
             'attribute lengths do not match: 2 != 1 in #document->INPUT'
-            'Nonequivalent attributes in documents should not match.'
+            'Nonequivalent attributes in an element should not match.'
+        )
+        test.done()
+
+    attributesLengthsDifferent: (test) ->
+        test.expect 1
+        test.throws(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/attributes-length-short.html'
+                    grunt.file.read 'test/fixtures/attributes-length-long.html'
+                )
+            'attribute lengths do not match: (class) != (class, id) in #document->DIV'
+            'Nonequivalent attribute lengths in elements should not match.'
         )
         test.done()
 

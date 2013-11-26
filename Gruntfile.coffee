@@ -118,6 +118,10 @@ module.exports = (grunt) ->
                     dest: '<%= app.test %>/fixtures/attributes-different-b.html'
                 ,
                     nonull: true
+                    src: '<%= app.test %>/fixtures/attributes-length-short.html'
+                    dest:'<%= app.test %>/fixtures/attributes-length-long.html'
+                ,
+                    nonull: true
                     src: '<%= app.test %>/fixtures/child-different-a.html'
                     dest: '<%= app.test %>/fixtures/child-different-b.html'
                 ,
