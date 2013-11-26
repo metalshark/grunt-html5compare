@@ -175,10 +175,15 @@ matching first.
             unless orig.childNodes.length == comp.childNodes.length
 
 If the number of child nodes does not match then list the element names of each
-child node to help spot the difference.
+child node to help spot the difference. As this will be a nodeList we cannot
+simply use a map statement.
 
-                origChildren = orig.childNodes.map (node) -> node.nodeName
-                compChildren = comp.childNodes.map (node) -> node.nodeName
+                origChildren = []
+                compChildren = []
+                for node in orig.childNodes
+                    origChildren.push node.nodeName
+                for node in comp.childNodes
+                    compChildren.push node.nodeName
 
                 throw new Error('child lengths do not match: (' +
                                 origChildren.join(', ') + ') != (' +

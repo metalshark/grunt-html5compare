@@ -77,6 +77,19 @@ exports.html5compare =
         )
         test.done()
 
+    childQuantity: (test) ->
+        test.expect 1
+        test.throws(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/child-quantity-2.html'
+                    grunt.file.read 'test/fixtures/child-quantity-3.html'
+                )
+            'child lengths do not match: (LI, LI) != (LI, LI, LI) in #document->UL'
+            'Different quantities of children should not match.'
+        )
+        test.done()
+
     childWhitespace: (test) ->
         test.expect 1
         test.doesNotThrow(

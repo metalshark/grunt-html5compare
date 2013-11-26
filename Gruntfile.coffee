@@ -126,6 +126,10 @@ module.exports = (grunt) ->
                     dest: '<%= app.test %>/fixtures/child-different-b.html'
                 ,
                     nonull: true
+                    src: '<%= app.test %>/fixtures/child-quantity-2.html'
+                    dest: '<%= app.test %>/fixtures/child-quantity-3.html'
+                ,
+                    nonull: true
                     src: '<%= app.test %>/fixtures/no-class-without.html'
                     dest: '<%= app.test %>/fixtures/no-class-with.html'
                 ,
