@@ -98,15 +98,19 @@ Comparing Attributes
 --------------------
 
 Comparing attributes using a simple test for lengths before comparing values.
-
-**TODO**: Show a list of attribute names when the lengths differ to help
-spot the difference.
+The attribute names collected and then shown in the error message.
 
         if orig.attributes
             if orig.attributes.length != comp.attributes.length
+                origAttrNames = []
+                compAttrNames = []
+                for attr in orig.attributes
+                    origAttrNames.push(attr.name)
+                for attr in comp.attributes
+                    compAttrNames.push(attr.name)
                 throw new Error('attribute lengths do not match: ' +
-                                orig.attributes.length + ' != ' +
-                                comp.attributes.length + ' in ' +
+                                '(' + origAttrNames.join(', ') + ')' + ' != ' +
+                                '(' + compAttrNames.join(', ') + ')' + ' in ' +
                                 nodePath.join('->'))
 
 `attr` is the original element's attribute, whilst `compValue` holds the
