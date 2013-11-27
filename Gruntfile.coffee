@@ -105,6 +105,10 @@ module.exports = (grunt) ->
                     dest: '<%= app.test %>/fixtures/tag-case-lower.html'
                 ,
                     nonull: true
+                    src: '<%= app.test %>/fixtures/text-whitespace-spaced.html'
+                    dest: '<%= app.test %>/fixtures/text-whitespace-compact.html'
+                ,
+                    nonull: true
                     src: '<%= app.test %>/fixtures/void-attributes-explicit.html'
                     dest: '<%= app.test %>/fixtures/void-attributes-implicit.html'
                 ]

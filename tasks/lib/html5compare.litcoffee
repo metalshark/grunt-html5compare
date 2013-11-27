@@ -63,6 +63,17 @@ comparison then please
             for childNode in dom.childNodes
                 trim_whitespace childNode
 
+`trim_text_whitespace` is used for comparing text content without having to
+worry about whitespace differences. First all whitespace is converted into a
+space character, then repeating whitespace sequences are converted to a singular
+space character, before finally removing all leading and trailing spaces.
+
+    trim_text_whitespace = (node) ->
+        text = node.textContent
+        text = text.replace /[\n\r\s\t]/gm, ' '
+        text = text.replace /[\s][\s]+/g, ' '
+        text = text.replace /^[\s]+|[\s]+$/g, ''
+
 Comparing DOMs
 --------------
 
@@ -208,10 +219,14 @@ as the output is more specific from a child with differing text than a parent.
 We could just add an `if` statement to this to check that it is a leaf node (an
 element without children) however that will likely need more clauses added to it
 as exceptions are found.
+First all whitespace is converted into a space character, then repeating
+whitespace sequences are converted to a singular space character, before finally
+removing all leading and trailing spaces.
 
         if orig.nodeName == '#text'
-            origText = orig.textContent.replace /^[\n\r\s\t]+|[\n\r\s\t]+$/gm, ''
-            compText = comp.textContent.replace /^[\n\r\s\t]+|[\n\r\s\t]+$/gm, ''
+            origText = trim_text_whitespace orig
+            compText = trim_text_whitespace comp
+
             if origText != compText
                 throw new Error('content differs "' + origText +
                                 '" != "' + compText +

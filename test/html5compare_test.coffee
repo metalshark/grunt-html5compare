@@ -224,6 +224,18 @@ exports.html5compare =
         )
         test.done()
 
+    textWhitespace: (test) ->
+        test.expect 1
+        test.doesNotThrow(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/text-whitespace-spaced.html'
+                    grunt.file.read 'test/fixtures/text-whitespace-compact.html'
+                )
+            'Equivalent documents with differences in text whitespace should match.'
+        )
+        test.done()
+
     voidAttributes: (test) ->
         test.expect 1
         test.doesNotThrow(
