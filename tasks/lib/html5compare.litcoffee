@@ -109,7 +109,7 @@ Comparing Attributes
 --------------------
 
 Comparing attributes using a simple test for lengths before comparing values.
-The attribute names collected and then shown in the error message.
+The attribute names are collected and then shown in the error message.
 
         if orig.attributes
             if orig.attributes.length != comp.attributes.length
