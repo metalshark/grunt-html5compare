@@ -134,12 +134,16 @@ module.exports = (grunt) ->
                     dest: '<%= app.test %>/fixtures/child-quantity-3.html'
                 ,
                     nonull: true
+                    src: '<%= app.test %>/fixtures/content-different-a.html'
+                    dest: '<%= app.test %>/fixtures/content-different-b.html'
+                ,
+                    nonull: true
                     src: '<%= app.test %>/fixtures/no-class-without.html'
                     dest: '<%= app.test %>/fixtures/no-class-with.html'
                 ,
                     nonull: true
-                    src: '<%= app.test %>/fixtures/content-different-a.html'
-                    dest: '<%= app.test %>/fixtures/content-different-b.html'
+                    src: '<%= app.test %>/fixtures/text-different-a.html'
+                    dest: '<%= app.test %>/fixtures/text-different-b.html'
                 ]
 
             multiTask:

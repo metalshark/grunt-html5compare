@@ -68,11 +68,11 @@ worry about whitespace differences. First all whitespace is converted into a
 space character, then repeating whitespace sequences are converted to a singular
 space character, before finally removing all leading and trailing spaces.
 
-    trim_text_whitespace = (node) ->
-        text = node.textContent
+    trim_text_whitespace = (text) ->
         text = text.replace /[\n\r\s\t]/gm, ' '
         text = text.replace /[\s][\s]+/g, ' '
         text = text.replace /^[\s]+|[\s]+$/g, ''
+        return text
 
 Comparing DOMs
 --------------
@@ -224,8 +224,8 @@ whitespace sequences are converted to a singular space character, before finally
 removing all leading and trailing spaces.
 
         if orig.nodeName == '#text'
-            origText = trim_text_whitespace orig
-            compText = trim_text_whitespace comp
+            origText = trim_text_whitespace orig.textContent
+            compText = trim_text_whitespace comp.textContent
 
             if origText != compText
                 throw new Error('content differs "' + origText +

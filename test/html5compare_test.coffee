@@ -224,6 +224,19 @@ exports.html5compare =
         )
         test.done()
 
+    textDifferent: (test) ->
+        test.expect 1
+        test.throws(
+            ->
+                html5compare.compare(
+                    grunt.file.read 'test/fixtures/text-different-a.html'
+                    grunt.file.read 'test/fixtures/text-different-b.html'
+                )
+            'content differs "Foo Bar" != "Bar Foo" in #document->P->#text'
+            'Text elements with different contents should not match.'
+        )
+        test.done()
+
     textWhitespace: (test) ->
         test.expect 1
         test.doesNotThrow(
