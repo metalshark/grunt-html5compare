@@ -2,7 +2,7 @@
 grunt-html5compare
 https://github.com/metalshark/grunt-html5compare
 
-Copyright (c) 2013 'Metalshark' Beech Horn
+Copyright (c) 2014 'Metalshark' Beech Horn
 Licensed under the LGPL v3 license.
 ###
 'use strict'
