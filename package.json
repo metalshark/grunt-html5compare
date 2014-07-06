@@ -1,7 +1,7 @@
 {
   "name": "grunt-html5compare",
   "description": "Compares HTML 5 files for equivalence.",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "homepage": "https://github.com/metalshark/grunt-html5compare",
   "author": {
     "name": "\"Metalshark\" Beech Horn",
@@ -22,13 +22,13 @@
   ],
   "main": "Gruntfile.coffee",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.1.0"
   },
   "scripts": {
     "test": "grunt test"
   },
   "dependencies": {
-    "jsdom": "~0.8.8"
+    "jsdom": "^0.11.1"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
