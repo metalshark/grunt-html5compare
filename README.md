@@ -34,7 +34,7 @@ make life easier.
 
 Getting Started
 ---------------
-This plugin requires Grunt `~0.4.0`
+This plugin requires Grunt `~0.4.5`
 
 If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out
 the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains
