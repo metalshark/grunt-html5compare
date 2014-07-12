@@ -32,8 +32,8 @@ child elements.
         origDOM = jsdom orig
         compDOM = jsdom comp
 
-        trim_whitespace origDOM
-        trim_whitespace compDOM
+        trimWhitespace origDOM
+        trimWhitespace compDOM
 
         compareElements origDOM, compDOM
 
@@ -45,7 +45,7 @@ whitespace. If there are any problems with files needing whitespace for
 comparison then please
 [raise an issue](https://github.com/metalshark/grunt-html5compare/issues/new).
 
-    trim_whitespace = (dom) ->
+    trimWhitespace = (dom) ->
         if dom.innerHTML
             dom.innerHTML = dom.innerHTML.replace /^[\n\r\s\t]+|[\n\r\s\t]+$/gm, ''
 
@@ -61,18 +61,68 @@ comparison then please
 
         if dom.hasChildNodes()
             for childNode in dom.childNodes
-                trim_whitespace childNode
+                trimWhitespace childNode
 
-`trim_text_whitespace` is used for comparing text content without having to
+`trimTextWhitespace` is used for comparing text content without having to
 worry about whitespace differences. First all whitespace is converted into a
 space character, then repeating whitespace sequences are converted to a singular
 space character, before finally removing all leading and trailing spaces.
 
-    trim_text_whitespace = (text) ->
+    trimTextWhitespace = (text) ->
         text = text.replace /[\n\r\s\t]/gm, ' '
         text = text.replace /[\s][\s]+/g, ' '
         text = text.replace /^[\s]+|[\s]+$/g, ''
         return text
+
+Draw Treeview
+-------------
+
+Recursively walk the DOM stopping when you reach the parameter node. A treeview
+is created. The parameters state and indent do not need specified when calling
+and are created internally.
+
+    exports.drawTreeView = (parent, node, state, indent) ->
+
+Use default values if not specified.
+
+        if ! state?
+            state =
+                text: ''
+        if ! indent?
+            indent = ''
+
+Update the final output text with the current node.
+
+        state.text += indent + parent.nodeName + '\n'
+
+If this is the final node to display then go no further,
+returning the text so far.
+
+        if parent == node
+            return state.text
+
+Recurse through children.
+
+        indent += '-'
+        for childNode in parent.childNodes
+
+If the childNode or any of its children are the final node then go no further,
+returning the text so far.
+
+            if exports.drawTreeView childNode, node, state, indent
+                return state.text
+
+        return false
+
+Error Message
+-------------
+
+Throw an error, complete with tree view for debugging.
+
+    throwError = (parent, node, text) ->
+        treeview = exports.drawTreeView parent, node
+
+        throw new Error(treeview + '\n' + text)
 
 Comparing DOMs
 --------------
@@ -88,11 +138,9 @@ record *every* element it is called on in the DOM.
 **TODO**: Display a tree view of DOM elements compared so far. It should also
 highlight the element which failed comparison.
 
-    compareElements = (orig, comp, nodePath) ->
-        nodePath = nodePath || []
-
-        nodePath = [].concat(nodePath)
-        nodePath.push orig.nodeName
+    compareElements = (orig, comp, parent) ->
+        if ! parent?
+            parent = orig
 
 First we check that the element names (`HTML`, `HEAD`, 'STRONG', etc) are the
 same.
@@ -101,9 +149,7 @@ except those which are # prefixed (e.g. #document, #text, etc) which are made
 lower case. This means we can compare `nodeName` without worrying about case.
 
         unless orig.nodeName == comp.nodeName
-            throw new Error('nodeNames do not match: ' + orig.nodeName +
-                            ' != ' + comp.nodeName +
-                            ' in ' + nodePath.join('->'))
+            throwError parent, orig, 'nodeNames do not match: ' + orig.nodeName + ' != ' + comp.nodeName
 
 Comparing Attributes
 --------------------
@@ -117,12 +163,11 @@ The attribute names are collected and then shown in the error message.
                 compAttrNames = []
                 for attr in orig.attributes
                     origAttrNames.push(attr.name)
+                    origNames = origAttrNames.join(', ')
                 for attr in comp.attributes
                     compAttrNames.push(attr.name)
-                throw new Error('attribute lengths do not match: ' +
-                                '(' + origAttrNames.join(', ') + ')' + ' != ' +
-                                '(' + compAttrNames.join(', ') + ')' + ' in ' +
-                                nodePath.join('->'))
+                    compNames = compAttrNames.join(', ')
+                throwError parent, orig, 'attribute lengths do not match: (' + origNames + ') != (' + compNames + ')'
 
 `attr` is the original element's attribute, whilst `compValue` holds the
 comparison element's attribute value, determined by the original element's
@@ -170,10 +215,7 @@ is undesirable (such as for class above), if you find anything please
 [raise an issue](https://github.com/metalshark/grunt-html5compare/issues/new).
 
                 if attr.value != compValue
-                    throw new Error('attribute values do not match: "' +
-                                    attr.value + '" != "' +
-                                    compValue + '" in ' +
-                                    nodePath.join('->') + '.' + attr.name)
+                    throwError parent, orig, 'attribute values do not match: "' + attr.value + '" != "' + compValue + '"'
 
 
 Comparing Children
@@ -189,17 +231,16 @@ If the number of child nodes does not match then list the element names of each
 child node to help spot the difference. As this will be a nodeList we cannot
 simply use a map statement.
 
-                origChildren = []
-                compChildren = []
+                origChildrenNames = []
+                compChildrenNames = []
                 for node in orig.childNodes
-                    origChildren.push node.nodeName
+                    origChildrenNames.push node.nodeName
+                    origNames = origChildrenNames.join(', ')
                 for node in comp.childNodes
-                    compChildren.push node.nodeName
+                    compChildrenNames.push node.nodeName
+                    compNames = compChildrenNames.join(', ')
 
-                throw new Error('child lengths do not match: (' +
-                                origChildren.join(', ') + ') != (' +
-                                compChildren.join(', ') + ') in ' +
-                                nodePath.join('->'))
+                throwError parent, orig, 'child lengths do not match: (' + origNames + ') != (' + compNames + ')'
 
 Recursively Compare Children
 ----------------------------
@@ -209,7 +250,7 @@ nodes. As the comparison utility raises/throws exceptions rather than returning
 true or false, we can ignore the return value.
 
             for origChildNode, index in orig.childNodes
-                compareElements origChildNode, comp.childNodes[index], nodePath
+                compareElements origChildNode, comp.childNodes[index], parent
 
 Comparing Text
 --------------
@@ -224,10 +265,8 @@ whitespace sequences are converted to a singular space character, before finally
 removing all leading and trailing spaces.
 
         if orig.nodeName == '#text'
-            origText = trim_text_whitespace orig.textContent
-            compText = trim_text_whitespace comp.textContent
+            origText = trimTextWhitespace orig.textContent
+            compText = trimTextWhitespace comp.textContent
 
             if origText != compText
-                throw new Error('content differs "' + origText +
-                                '" != "' + compText +
-                                '" in ' + nodePath.join('->'))
+                throwError parent, orig, 'content differs "' + origText + '" != "' + compText + '"'

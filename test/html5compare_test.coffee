@@ -151,6 +151,20 @@ exports.html5compare =
         )
         test.done()
 
+    drawTreeView: (test) ->
+        test.expect 1
+        jsdom = require('jsdom').jsdom
+        doc = grunt.file.read 'test/fixtures/treeview.html'
+        dom = jsdom doc
+        node = dom.getElementsByTagName('a')[0]
+        comp = html5compare.drawTreeView dom, node
+        test.equal(
+            '#document\n-DIV\n--#text\n--P\n---#text\n--#text\n--STRONG\n---#text\n--#text\n--A\n'
+            comp
+            'Treeviews should be created consistently.'
+        )
+        test.done()
+
     noClass: (test) ->
         test.expect 1
         test.throws(
