@@ -88,7 +88,7 @@ exports.html5compare = {
     dom = jsdom(doc);
     node = dom.getElementsByTagName('a')[0];
     comp = html5compare.drawTreeView(dom, node);
-    test.equal('#document\n-DIV#\n--\n--P#lead.great\n---Hello World\n--\n--STRONG#.heavy\n---its a strong\n--\n--A#\n', comp, 'Treeviews should be created consistently.');
+    test.equal('document\n-DIV\n--\n--P#lead.great\n---Hello World\n--\n--STRONG.heavy\n---its a strong\n--\n--A\n', comp, 'Treeviews should be created consistently.');
     return test.done();
   },
   noClass: function(test) {

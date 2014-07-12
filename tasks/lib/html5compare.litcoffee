@@ -96,11 +96,13 @@ Update the final output text with the current node.
         if parent.nodeName == '#text'
             state.text += indent + trimTextWhitespace(parent.nodeValue)
         else
-            state.text += indent + parent.nodeName
+            nodeName = parent.nodeName
+            nodeName = nodeName.replace /[#]/gm, ''
+            state.text += indent + nodeName
             if parent?
-                if parent.id?
+                if parent.id? && parent.id
                     state.text += '#' + parent.id
-                if parent.className?
+                if parent.className? && parent.className
                     classes = parent.className.split(/[\s,]+/).sort().join('.')
                     if classes
                         state.text += '.' + classes
