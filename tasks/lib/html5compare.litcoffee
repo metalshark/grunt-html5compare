@@ -93,7 +93,18 @@ Use default values if not specified.
 
 Update the final output text with the current node.
 
-        state.text += indent + parent.nodeName + '\n'
+        if parent.nodeName == '#text'
+            state.text += indent + trimTextWhitespace(parent.nodeValue)
+        else
+            state.text += indent + parent.nodeName
+            if parent?
+                if parent.id?
+                    state.text += '#' + parent.id
+                if parent.className?
+                    classes = parent.className.split(/[\s,]+/).sort().join('.')
+                    if classes
+                        state.text += '.' + classes
+        state.text += '\n'
 
 If this is the final node to display then go no further,
 returning the text so far.

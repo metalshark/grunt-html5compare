@@ -159,7 +159,7 @@ exports.html5compare =
         node = dom.getElementsByTagName('a')[0]
         comp = html5compare.drawTreeView dom, node
         test.equal(
-            '#document\n-DIV\n--#text\n--P\n---#text\n--#text\n--STRONG\n---#text\n--#text\n--A\n'
+            '#document\n-DIV#\n--\n--P#lead.great\n---Hello World\n--\n--STRONG#.heavy\n---its a strong\n--\n--A#\n'
             comp
             'Treeviews should be created consistently.'
         )
