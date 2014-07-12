@@ -135,9 +135,6 @@ By cloning (`[].concat`) the array of names is trimmed to a linear path through
 the DOM. Without cloning you will end up with a zig zag pattern, as it will
 record *every* element it is called on in the DOM.
 
-**TODO**: Display a tree view of DOM elements compared so far. It should also
-highlight the element which failed comparison.
-
     compareElements = (orig, comp, parent) ->
         if ! parent?
             parent = orig
