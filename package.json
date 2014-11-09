@@ -41,6 +41,11 @@
     "time-grunt": "^0.4.0"
   },
   "keywords": [
-    "compare comparehtml gruntplugin html html5 htmlcompare"
+    "compare",
+    "comparehtml",
+    "gruntplugin",
+    "html",
+    "html5",
+    "htmlcompare"
   ]
 }
